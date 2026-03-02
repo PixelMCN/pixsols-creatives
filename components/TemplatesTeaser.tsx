@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { templates } from "@/lib/templates";
+import { templates, weddingCards } from "@/lib/templates";
 import { ArrowRight } from "lucide-react";
 
 export default function TemplatesTeaser() {
-    const teaserTemplates = templates.slice(0, 4);
+    const teaserSites = templates.slice(0, 3);
+    const teaserCards = weddingCards.slice(0, 2);
 
     return (
         <section className="py-24 md:py-32 px-6 overflow-hidden">
@@ -40,9 +41,18 @@ export default function TemplatesTeaser() {
                     </Link>
                 </motion.div>
 
-                {/* Horizontal Scroll Row */}
-                <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory -mx-6 px-6">
-                    {teaserTemplates.map((template, i) => (
+                {/* Site Templates Row */}
+                <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="font-heading font-bold text-xl sm:text-2xl text-white tracking-tight mb-5"
+                >
+                    Site Templates
+                </motion.h3>
+                <div className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory -mx-6 px-6">
+                    {teaserSites.map((template, i) => (
                         <motion.div
                             key={template.id}
                             initial={{ opacity: 0, y: 40 }}
@@ -67,6 +77,48 @@ export default function TemplatesTeaser() {
                                 </h4>
                                 <span className="text-text-muted text-xs uppercase tracking-wider">
                                     {template.category}
+                                </span>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Wedding Cards Row */}
+                <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="font-heading font-bold text-xl sm:text-2xl text-white tracking-tight mt-10 mb-5"
+                >
+                    Wedding Card Templates
+                </motion.h3>
+                <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory -mx-6 px-6">
+                    {teaserCards.map((card, i) => (
+                        <motion.div
+                            key={card.id}
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.5 }}
+                            className="group flex-shrink-0 w-[220px] sm:w-[260px] snap-start"
+                        >
+                            <div className="relative aspect-[3/4] bg-surface-light border border-border overflow-hidden hover:-translate-y-2 transition-transform duration-300">
+                                <Image
+                                    src={card.thumbnail}
+                                    alt={card.name}
+                                    fill
+                                    unoptimized
+                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60" />
+                            </div>
+                            <div className="mt-3">
+                                <h4 className="font-heading font-bold text-white text-base">
+                                    {card.name}
+                                </h4>
+                                <span className="text-text-muted text-xs uppercase tracking-wider">
+                                    {card.category}
                                 </span>
                             </div>
                         </motion.div>
