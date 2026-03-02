@@ -63,7 +63,7 @@ export default function ContactSection() {
                     </a>
 
                     {/* Email */}
-                    <a href="mailto:hello@pixsolscreative.com">
+                    <a href="mailto:Pixsolscreativestudio@gmail.com">
                         <motion.div
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.98 }}
