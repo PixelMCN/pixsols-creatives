@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharaja's Kitchen — Royal Rajasthani Dining</title>
+    <meta name="description"
+        content="Experience authentic Rajasthani cuisine in a royal setting. Traditional thalis, dal baati churma, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D48B;
+            --maroon: #6B1D2A;
+            --maroon-deep: #4A0E1A;
+            --cream: #FDF5E6;
+            --dark: #1A0A0E;
+            --text: #2C1810;
+            --text-light: #8B7355;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(26, 10, 14, 0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-cta {
+            padding: 0.6rem 1.5rem;
+            background: var(--gold);
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.3s;
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(74, 14, 26, 0.8), rgba(26, 10, 14, 0.9)), url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1600&q=80') center/cover no-repeat;
+            position: relative;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--cream);
+            line-height: 1.1;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            color: var(--gold-light);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.9rem 2.5rem;
+            background: var(--gold);
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
+        }
+
+        .btn-outline {
+            padding: 0.9rem 2.5rem;
+            background: transparent;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* ─── Ornamental Divider ─── */
+        .divider {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: var(--gold);
+            font-size: 1.2rem;
+            letter-spacing: 0.5em;
+            opacity: 0.5;
+        }
+
+        /* ─── About ─── */
+        .about {
+            padding: 6rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-img {
+            aspect-ratio: 4/5;
+            background: url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: var(--maroon);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* ─── Menu Highlights ─── */
+        .menu-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+            color: var(--cream);
+        }
+
+        .menu-section .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--cream);
+        }
+
+        .menu-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 0;
+            transition: border-color 0.3s, transform 0.3s;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+
+        .menu-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .menu-card-body {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .menu-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-card h3 {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        .menu-price {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--gold-light);
+            font-size: 1rem;
+        }
+
+        .menu-card p {
+            color: rgba(253, 245, 230, 0.5);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .menu-badge {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* ─── Royal Thali Strip ─── */
+        .thali-strip {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: linear-gradient(rgba(74, 14, 26, 0.88), rgba(74, 14, 26, 0.92)), url('https://images.unsplash.com/photo-1567337710282-00832b415979?w=1400&q=80') center/cover no-repeat;
+            position: relative;
+        }
+
+        .thali-strip h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .thali-strip p {
+            color: var(--gold-light);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        .thali-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 1.5rem 0;
+        }
+
+        .thali-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            max-width: 700px;
+            margin: 2rem auto 0;
+        }
+
+        .thali-items span {
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            color: var(--gold-light);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ─── Testimonials ─── */
+        .testimonials {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 2.5rem;
+            color: var(--maroon);
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-card {
+            padding: 2.5rem;
+            border: 1px solid rgba(107, 29, 42, 0.15);
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-card p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--text);
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card .author {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* ─── Location & Hours ─── */
+        .info-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .info-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .info-block h3 {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-block p,
+        .info-block li {
+            color: rgba(253, 245, 230, 0.6);
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+
+        .info-block ul {
+            list-style: none;
+        }
+
+        .info-block li span {
+            color: var(--gold-light);
+            font-weight: 500;
+            display: inline-block;
+            width: 120px;
+        }
+
+        /* ─── Reservation CTA ─── */
+        .reservation-cta {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: linear-gradient(rgba(107, 29, 42, 0.85), rgba(74, 14, 26, 0.9)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=80') center/cover no-repeat;
+        }
+
+        .reservation-cta h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .reservation-cta p {
+            color: var(--gold-light);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            padding: 3rem 2rem;
+            background: var(--dark);
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer p {
+            color: rgba(253, 245, 230, 0.4);
+            font-size: 0.8rem;
+        }
+
+        /* ─── Mobile ─── */
+        @media (max-width: 768px) {
+
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Mobile Menu Overlay ─── */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--dark);
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* ─── Animations ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">Maharaja's Kitchen</a>
+        <ul class="nav-links">
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#thali">Royal Thali</a></li>
+            <li><a href="#info">Visit</a></li>
+        </ul>
+        <a href="#reserve" class="nav-cta">Reserve a Table</a>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" onclick="toggleMenu()">Our Story</a>
+        <a href="#menu" onclick="toggleMenu()">Menu</a>
+        <a href="#thali" onclick="toggleMenu()">Royal Thali</a>
+        <a href="#info" onclick="toggleMenu()">Visit</a>
+        <a href="#reserve" onclick="toggleMenu()">Reserve</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-tag">Est. 1987 · Jaipur</p>
+            <h1>A <span>Royal</span> Feast for the Senses</h1>
+            <p>Step into the grandeur of Rajasthani hospitality. Authentic recipes passed down through generations,
+                served in a palace-inspired setting.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn-primary">Explore Menu</a>
+                <a href="#reserve" class="btn-outline">Book a Table</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider">✦ ✦ ✦</div>
+
+    <!-- About -->
+    <section class="about fade-up" id="about">
+        <div class="about-img"></div>
+        <div class="about-text">
+            <h2>Where Tradition Meets Royalty</h2>
+            <p>For over three decades, Maharaja's Kitchen has been serving the finest Rajasthani cuisine in the heart of
+                Jaipur. Our recipes are sourced from royal kitchens of Rajputana, prepared with age-old techniques and
+                the freshest ingredients.</p>
+            <p>Every dish tells a story — from the slow-cooked Laal Maas to the crispy Dal Baati Churma, we bring the
+                flavours of the desert state to your plate with unwavering authenticity.</p>
+        </div>
+    </section>
+
+    <!-- Menu Highlights -->
+    <section class="menu-section" id="menu">
+        <div class="section-header">
+            <span class="section-tag">Curated Selection</span>
+            <h2>Signature Dishes</h2>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1631515242808-497c3b3616a2?w=600&q=80"
+                    alt="Dal Baati Churma" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Dal Baati Churma</h3>
+                        <span class="menu-price">₹449</span>
+                    </div>
+                    <p>Baked wheat baatis served with panchkuti dal and sweet churma. The quintessential Rajasthani
+                        experience.</p>
+                    <span class="menu-badge">Chef's Special</span>
+                </div>
+            </div>
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1545247181-516773cae754?w=600&q=80"
+                    alt="Laal Maas" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Laal Maas</h3>
+                        <span class="menu-price">₹599</span>
+                    </div>
+                    <p>Fiery mutton curry slow-cooked with mathania chillies and a blend of royal spices. Bold and
+                        unforgettable.</p>
+                    <span class="menu-badge">Signature</span>
+                </div>
+            </div>
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80"
+                    alt="Ker Sangri" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Ker Sangri</h3>
+                        <span class="menu-price">₹349</span>
+                    </div>
+                    <p>Wild desert beans and berries cooked with traditional spices. A taste of the Thar Desert on your
+                        palate.</p>
+                    <span class="menu-badge">Vegetarian</span>
+                </div>
+            </div>
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&q=80"
+                    alt="Gatte ka Saag" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Gatte ka Saag</h3>
+                        <span class="menu-price">₹379</span>
+                    </div>
+                    <p>Steamed gram flour dumplings in a rich yogurt-based gravy, tempered with mustard and cumin.</p>
+                </div>
+            </div>
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&q=80"
+                    alt="Ghewar" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Ghewar</h3>
+                        <span class="menu-price">₹249</span>
+                    </div>
+                    <p>Iconic Rajasthani dessert — disc-shaped sweet soaked in sugar syrup and topped with rabdi and
+                        pistachios.</p>
+                    <span class="menu-badge">Dessert</span>
+                </div>
+            </div>
+            <div class="menu-card fade-up">
+                <img class="menu-card-img" src="https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=600&q=80"
+                    alt="Jungli Maas" loading="lazy">
+                <div class="menu-card-body">
+                    <div class="menu-card-top">
+                        <h3>Jungli Maas</h3>
+                        <span class="menu-price">₹649</span>
+                    </div>
+                    <p>Rustic game-style mutton cooked with minimal spices — just meat, ghee, salt, and red chillies.
+                        Raw &amp; primal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Royal Thali -->
+    <section class="thali-strip fade-up" id="thali">
+        <span class="section-tag">The Complete Experience</span>
+        <h2>Maharaja's Royal Thali</h2>
+        <p>A grand platter featuring the best of Rajasthani cuisine — 12 items served on a traditional brass thali with
+            unlimited refills.</p>
+        <div class="thali-price">₹899 <span
+                style="font-size: 1rem; opacity: 0.6; font-family: Inter, sans-serif; font-weight: 400;">per
+                person</span></div>
+        <div class="thali-items">
+            <span>Dal Baati</span>
+            <span>Churma</span>
+            <span>Gatte ki Sabzi</span>
+            <span>Papad ki Sabzi</span>
+            <span>Ker Sangri</span>
+            <span>Bajra Roti</span>
+            <span>Raita</span>
+            <span>Chaas</span>
+            <span>Rice</span>
+            <span>Pickle</span>
+            <span>Ghewar</span>
+            <span>Malpua</span>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials fade-up">
+        <h2>What Guests Say</h2>
+        <div class="testimonial-card">
+            <p>"The most authentic Rajasthani food I've had outside of a haveli. The Dal Baati Churma transported me
+                straight to my grandmother's kitchen."</p>
+            <span class="author">— Priya Rathore, Udaipur</span>
+        </div>
+        <div class="testimonial-card">
+            <p>"Maharaja's Kitchen is not just a restaurant — it's an experience. The ambiance, the service, the
+                flavours — everything is royal."</p>
+            <span class="author">— Arjun Shekhawat, Delhi</span>
+        </div>
+    </section>
+
+    <!-- Location & Hours -->
+    <section class="info-section" id="info">
+        <div class="info-grid">
+            <div class="info-block">
+                <h3>Find Us</h3>
+                <p>42, Mirza Ismail Road,<br>Near Hawa Mahal,<br>Jaipur, Rajasthan 302001</p>
+                <p style="margin-top: 1rem;">📞 +91 141 234 5678</p>
+            </div>
+            <div class="info-block">
+                <h3>Hours</h3>
+                <ul>
+                    <li><span>Mon – Thu</span> 12:00 PM – 10:30 PM</li>
+                    <li><span>Fri – Sat</span> 12:00 PM – 11:00 PM</li>
+                    <li><span>Sunday</span> 11:00 AM – 10:30 PM</li>
+                </ul>
+                <p style="margin-top: 1rem; color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em;">Reservations
+                    recommended for weekends</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation CTA -->
+    <section class="reservation-cta" id="reserve">
+        <h2>Reserve Your Royal Table</h2>
+        <p>For reservations and private dining inquiries, call us or visit in person.</p>
+        <a href="tel:+911412345678" class="btn-primary">Call Now: +91 141 234 5678</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Maharaja's Kitchen</div>
+        <p>© 2025 Maharaja's Kitchen. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Scroll fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

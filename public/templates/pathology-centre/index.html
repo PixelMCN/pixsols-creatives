@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine Diagnostics — Pathology & Diagnostic Centre</title>
+    <meta name="description"
+        content="NABL-accredited pathology lab offering blood tests, health checkups, and diagnostic imaging. Trusted results, fast reports.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --blue: #1A73E8;
+            --blue-dark: #1557B0;
+            --blue-light: #E8F0FE;
+            --teal: #00897B;
+            --teal-light: #E0F2F1;
+            --bg: #FAFBFD;
+            --white: #FFFFFF;
+            --dark: #0F1629;
+            --text: #1E293B;
+            --text-light: #64748B;
+            --border: #E2E8F0;
+            --green: #16A34A;
+            --red: #DC2626;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all .4s;
+            background: transparent
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, .97);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, .06)
+        }
+
+        .nav-logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: .5rem
+        }
+
+        .nav-logo .plus {
+            color: var(--teal);
+            font-size: 1.5rem
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: .85rem;
+            font-weight: 500;
+            transition: color .3s
+        }
+
+        .nav-links a:hover {
+            color: var(--blue)
+        }
+
+        .nav-cta {
+            padding: .6rem 1.5rem;
+            background: var(--blue);
+            color: white;
+            font-weight: 600;
+            font-size: .8rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all .3s
+        }
+
+        .nav-cta:hover {
+            background: var(--blue-dark);
+            transform: translateY(-1px)
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            transition: .3s
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--white);
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem
+        }
+
+        .mobile-menu.active {
+            display: flex
+        }
+
+        .mobile-menu a {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 700
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 7rem 2rem 4rem;
+            background: linear-gradient(135deg, rgba(15, 22, 41, .85) 0%, rgba(27, 40, 69, .8) 100%), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1600&q=80') center/cover no-repeat;
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(26, 115, 232, .15) 0%, transparent 60%);
+            pointer-events: none
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .4rem 1rem;
+            background: rgba(26, 115, 232, .15);
+            border: 1px solid rgba(26, 115, 232, .25);
+            color: var(--blue);
+            font-size: .75rem;
+            font-weight: 600;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: .08em
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.8rem);
+            color: white;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -.02em
+        }
+
+        .hero h1 span {
+            color: var(--blue)
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, .6);
+            font-size: 1rem;
+            max-width: 460px;
+            line-height: 1.8;
+            margin-bottom: 2rem
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap
+        }
+
+        .btn-blue {
+            padding: .85rem 2rem;
+            background: var(--blue);
+            color: white;
+            font-weight: 600;
+            font-size: .85rem;
+            text-decoration: none;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .btn-blue:hover {
+            background: var(--blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, .3)
+        }
+
+        .btn-white {
+            padding: .85rem 2rem;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: .85rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .btn-white:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, .05)
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center
+        }
+
+        .stat-num {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: .25rem
+        }
+
+        .stat-num span {
+            color: var(--blue)
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, .4);
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .1em
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            padding: 2rem;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            text-align: center
+        }
+
+        .trust-bar p {
+            color: var(--text-light);
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            font-weight: 500;
+            margin-bottom: 1rem
+        }
+
+        .trust-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap
+        }
+
+        .trust-logos span {
+            font-weight: 700;
+            font-size: .9rem;
+            color: var(--text-light);
+            opacity: .6
+        }
+
+        /* Services */
+        .services {
+            padding: 6rem 2rem
+        }
+
+        .services-inner {
+            max-width: 1100px;
+            margin: 0 auto
+        }
+
+        .section-tag {
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .35em;
+            color: var(--blue);
+            font-weight: 600;
+            display: block;
+            margin-bottom: .75rem
+        }
+
+        .services h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            letter-spacing: -.02em
+        }
+
+        .services>.services-inner>p {
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 500px;
+            line-height: 1.7
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem
+        }
+
+        .service-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all .3s
+        }
+
+        .service-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .06)
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem
+        }
+
+        .service-icon.blue {
+            background: var(--blue-light);
+            color: var(--blue)
+        }
+
+        .service-icon.teal {
+            background: var(--teal-light);
+            color: var(--teal)
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: .5rem
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: .85rem;
+            line-height: 1.6;
+            margin-bottom: 1rem
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--blue);
+            font-size: .95rem
+        }
+
+        /* Health Packages */
+        .packages {
+            padding: 5rem 2rem;
+            background: linear-gradient(rgba(15, 22, 41, .92), rgba(15, 22, 41, .95)), url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1400&q=80') center/cover no-repeat;
+            color: white
+        }
+
+        .packages-inner {
+            max-width: 1100px;
+            margin: 0 auto
+        }
+
+        .packages h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: center
+        }
+
+        .packages>.packages-inner>p {
+            text-align: center;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .pkg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem
+        }
+
+        .pkg-card {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all .3s;
+            position: relative
+        }
+
+        .pkg-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-3px)
+        }
+
+        .pkg-card.popular {
+            border-color: var(--blue)
+        }
+
+        .pkg-popular-tag {
+            position: absolute;
+            top: -1px;
+            right: 1.5rem;
+            padding: .3rem .8rem;
+            background: var(--blue);
+            color: white;
+            font-size: .65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            border-radius: 0 0 6px 6px
+        }
+
+        .pkg-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: .5rem
+        }
+
+        .pkg-card .pkg-desc {
+            color: rgba(255, 255, 255, .4);
+            font-size: .85rem;
+            margin-bottom: 1.5rem
+        }
+
+        .pkg-price {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem
+        }
+
+        .pkg-price span {
+            font-size: .9rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .4)
+        }
+
+        .pkg-features {
+            list-style: none;
+            margin-bottom: 1.5rem
+        }
+
+        .pkg-features li {
+            padding: .4rem 0;
+            color: rgba(255, 255, 255, .6);
+            font-size: .85rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem
+        }
+
+        .pkg-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            font-size: .8rem
+        }
+
+        .pkg-btn {
+            display: block;
+            text-align: center;
+            padding: .75rem;
+            background: var(--blue);
+            color: white;
+            font-weight: 600;
+            font-size: .85rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all .3s
+        }
+
+        .pkg-btn:hover {
+            background: var(--blue-dark)
+        }
+
+        .pkg-btn.outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .15)
+        }
+
+        .pkg-btn.outline:hover {
+            border-color: var(--blue);
+            background: rgba(26, 115, 232, .1)
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 2rem
+        }
+
+        .how-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .how-it-works h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            color: var(--dark)
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem
+        }
+
+        .step {
+            text-align: center
+        }
+
+        .step-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem
+        }
+
+        .step h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: .4rem
+        }
+
+        .step p {
+            color: var(--text-light);
+            font-size: .8rem;
+            line-height: 1.5
+        }
+
+        /* Contact */
+        .contact {
+            padding: 5rem 2rem;
+            background: var(--blue-light)
+        }
+
+        .contact-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .contact h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem
+        }
+
+        .contact>.contact-inner>p {
+            color: var(--text-light);
+            margin-bottom: 2rem
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem
+        }
+
+        .contact-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center
+        }
+
+        .contact-card .emoji {
+            font-size: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .contact-card h4 {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: .4rem
+        }
+
+        .contact-card p {
+            color: var(--text-light);
+            font-size: .85rem
+        }
+
+        .contact-card a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .85rem
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2.5rem 2rem;
+            background: var(--dark);
+            text-align: center
+        }
+
+        .footer-logo {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: .5rem
+        }
+
+        .footer-logo span {
+            color: var(--blue)
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, .3);
+            font-size: .75rem
+        }
+
+        @media(max-width:768px) {
+
+            .nav-links,
+            .nav-cta {
+                display: none
+            }
+
+            .hamburger {
+                display: flex
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(3, 1fr);
+                margin-top: 2rem
+            }
+
+            .services-grid,
+            .pkg-grid {
+                grid-template-columns: 1fr
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity .6s ease, transform .6s ease
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo"><span class="plus">+</span> LifeLine Diagnostics</a>
+        <ul class="nav-links">
+            <li><a href="#services">Tests</a></li>
+            <li><a href="#packages">Health Packages</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#packages" class="nav-cta">Book a Test</a>
+        <button class="hamburger" onclick="toggleMenu()"
+            aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services" onclick="toggleMenu()">Tests</a>
+        <a href="#packages" onclick="toggleMenu()">Health Packages</a>
+        <a href="#how" onclick="toggleMenu()">How It Works</a>
+        <a href="#contact" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="dot"></span> NABL Accredited Lab</div>
+                <h1>Accurate <span>Diagnostics.</span> Trusted Results.</h1>
+                <p>From routine blood tests to advanced imaging — get reliable pathology reports with quick turnaround.
+                    Serving Lucknow for over 15 years.</p>
+                <div class="hero-btns">
+                    <a href="#packages" class="btn-blue">View Health Packages</a>
+                    <a href="#contact" class="btn-white">Book Home Collection</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-num">15<span>+</span></div>
+                    <div class="stat-label">Years</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">2L<span>+</span></div>
+                    <div class="stat-label">Tests/Year</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">98<span>%</span></div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        <p>Accredited & Partnered With</p>
+        <div class="trust-logos">
+            <span>NABL</span><span>ICMR</span><span>ISO 15189</span><span>CGHS</span><span>ECHS</span>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="services-inner">
+            <span class="section-tag">Our Services</span>
+            <h2>Tests & Diagnostics</h2>
+            <p>Comprehensive pathology and imaging services under one roof.</p>
+            <div class="services-grid">
+                <div class="service-card fade-up">
+                    <div class="service-icon blue">🩸</div>
+                    <h3>Blood Tests</h3>
+                    <p>CBC, blood sugar, lipid profile, thyroid panel, liver & kidney function, and 500+ more tests.</p>
+                    <span class="service-price">From ₹149</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon teal">🧬</div>
+                    <h3>Specialised Pathology</h3>
+                    <p>Histopathology, cytology, immunohistochemistry, FNAC, and tumour markers.</p>
+                    <span class="service-price">From ₹799</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon blue">🔬</div>
+                    <h3>Microbiology</h3>
+                    <p>Culture & sensitivity, urine analysis, stool examination, and infectious disease panels.</p>
+                    <span class="service-price">From ₹299</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon teal">📷</div>
+                    <h3>Imaging & Radiology</h3>
+                    <p>Digital X-Ray, Ultrasound, 2D Echo, ECG, and TMT. Same-day reporting available.</p>
+                    <span class="service-price">From ₹499</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon blue">🏠</div>
+                    <h3>Home Collection</h3>
+                    <p>Trained phlebotomists at your doorstep. Book a slot online or via WhatsApp. Free for orders above
+                        ₹999.</p>
+                    <span class="service-price">₹99 (waived ₹999+)</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon teal">📱</div>
+                    <h3>Digital Reports</h3>
+                    <p>Get your reports on WhatsApp and email within 6–24 hours. Access past reports anytime online.</p>
+                    <span class="service-price">Free</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Packages -->
+    <section class="packages" id="packages">
+        <div class="packages-inner">
+            <span class="section-tag" style="color:rgba(255,255,255,.4);text-align:center;display:block">Preventive
+                Health</span>
+            <h2>Health Checkup Packages</h2>
+            <p>Comprehensive screening packages designed for every age group and lifestyle.</p>
+            <div class="pkg-grid">
+                <div class="pkg-card fade-up">
+                    <h3>Basic Health Check</h3>
+                    <p class="pkg-desc">Essential screening for overall health</p>
+                    <div class="pkg-price">₹999 <span>/ person</span></div>
+                    <ul class="pkg-features">
+                        <li>Complete Blood Count (CBC)</li>
+                        <li>Blood Sugar (Fasting & PP)</li>
+                        <li>Lipid Profile</li>
+                        <li>Liver Function (LFT)</li>
+                        <li>Kidney Function (KFT)</li>
+                        <li>Urine Routine</li>
+                    </ul>
+                    <a href="#contact" class="pkg-btn outline">Book Now</a>
+                </div>
+                <div class="pkg-card popular fade-up">
+                    <span class="pkg-popular-tag">Most Popular</span>
+                    <h3>Comprehensive Check</h3>
+                    <p class="pkg-desc">Complete wellness assessment</p>
+                    <div class="pkg-price">₹2,499 <span>/ person</span></div>
+                    <ul class="pkg-features">
+                        <li>Everything in Basic</li>
+                        <li>Thyroid Profile (T3, T4, TSH)</li>
+                        <li>HbA1c (Diabetes Marker)</li>
+                        <li>Vitamin D & B12</li>
+                        <li>Iron Studies</li>
+                        <li>ECG</li>
+                        <li>Chest X-Ray</li>
+                        <li>Doctor Consultation</li>
+                    </ul>
+                    <a href="#contact" class="pkg-btn">Book Now</a>
+                </div>
+                <div class="pkg-card fade-up">
+                    <h3>Executive Health</h3>
+                    <p class="pkg-desc">Premium full-body screening</p>
+                    <div class="pkg-price">₹4,999 <span>/ person</span></div>
+                    <ul class="pkg-features">
+                        <li>Everything in Comprehensive</li>
+                        <li>Tumour Markers (PSA/CA-125)</li>
+                        <li>Ultrasound Abdomen</li>
+                        <li>2D Echocardiography</li>
+                        <li>TMT (Treadmill Test)</li>
+                        <li>Pulmonary Function Test</li>
+                        <li>Specialist Consultation</li>
+                    </ul>
+                    <a href="#contact" class="pkg-btn outline">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how">
+        <div class="how-inner">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step fade-up">
+                    <div class="step-circle">1</div>
+                    <h3>Choose a Test</h3>
+                    <p>Select from 500+ tests or a health package</p>
+                </div>
+                <div class="step fade-up">
+                    <div class="step-circle">2</div>
+                    <h3>Book a Slot</h3>
+                    <p>Walk in or book home collection via WhatsApp/call</p>
+                </div>
+                <div class="step fade-up">
+                    <div class="step-circle">3</div>
+                    <h3>Give Sample</h3>
+                    <p>Quick, painless sample collection by trained staff</p>
+                </div>
+                <div class="step fade-up">
+                    <div class="step-circle">4</div>
+                    <h3>Get Reports</h3>
+                    <p>Digital reports on WhatsApp & email within 6–24 hrs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <div class="contact-inner">
+            <h2>Visit Us or Book a Test</h2>
+            <p>Walk-ins welcome. Home collection available across Lucknow.</p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="emoji">📍</div>
+                    <h4>Location</h4>
+                    <p>23, Hazratganj Main Road,<br>Lucknow, UP 226001</p>
+                </div>
+                <div class="contact-card">
+                    <div class="emoji">🕐</div>
+                    <h4>Hours</h4>
+                    <p>Mon–Sat: 7:00 AM – 8:00 PM<br>Sunday: 7:00 AM – 2:00 PM</p>
+                </div>
+                <div class="contact-card">
+                    <div class="emoji">📞</div>
+                    <h4>Contact</h4>
+                    <a href="tel:+915221234567">+91 522 123 4567</a><br>
+                    <a href="https://wa.me/915221234567" target="_blank">WhatsApp Us</a>
+                </div>
+            </div>
+            <a href="tel:+915221234567" class="btn-blue" style="display:inline-block;margin-top:1rem">📞 Call to Book
+                Now</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo"><span>+</span> LifeLine Diagnostics</div>
+        <p>© 2025 LifeLine Diagnostics Pvt. Ltd. All rights reserved. NABL Accredited.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60) });
+        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active') }
+        const observer = new IntersectionObserver(e => { e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible') }) }, { threshold: .15 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

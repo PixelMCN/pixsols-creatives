@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wok & Fire — IndoChinese Kitchen</title>
+    <meta name="description"
+        content="Bold IndoChinese flavours — Manchurian, Szechuan, Hakka Noodles, and more. Street-style meets restaurant quality.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #E63946;
+            --red-dark: #B22234;
+            --orange: #FF8C42;
+            --dark: #0D0D0D;
+            --dark-surface: #141414;
+            --dark-card: #1A1A1A;
+            --light: #F5F0EB;
+            --muted: #6B6B6B;
+            --text: #E8E8E8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(13, 13, 13, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        .nav-cta {
+            padding: 0.65rem 1.5rem;
+            background: var(--red);
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--red-dark);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: 0.3s;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--dark);
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--red);
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(13, 13, 13, 0.7), rgba(13, 13, 13, 0.85)), url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1600&q=80') center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(230, 57, 70, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--red);
+            color: var(--red);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 2rem;
+            border-radius: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-red {
+            padding: 0.9rem 2.5rem;
+            background: var(--red);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-red:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(230, 57, 70, 0.3);
+        }
+
+        .btn-outline {
+            padding: 0.9rem 2.5rem;
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* ─── Fire Strip ─── */
+        .fire-strip {
+            padding: 0.75rem 0;
+            background: var(--red);
+            overflow: hidden;
+        }
+
+        .fire-track {
+            display: flex;
+            width: max-content;
+            animation: fireScroll 18s linear infinite;
+        }
+
+        .fire-track span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: white;
+            white-space: nowrap;
+            margin: 0 2rem;
+        }
+
+        @keyframes fireScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ─── Bestsellers ─── */
+        .bestsellers {
+            padding: 6rem 2rem;
+        }
+
+        .bestsellers-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--red);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .bestsellers h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .best-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .best-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 0;
+            border-radius: 6px;
+            transition: border-color 0.3s, transform 0.3s;
+            overflow: hidden;
+        }
+
+        .best-card:hover {
+            border-color: var(--red);
+            transform: translateY(-4px);
+        }
+
+        .best-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .best-card-body {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .best-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+
+        .best-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .best-card .price {
+            color: var(--orange);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .best-card p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .spice-level {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--red);
+        }
+
+        .tag-badge {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            border-radius: 2px;
+            margin-right: 0.4rem;
+        }
+
+        /* ─── Menu Categories ─── */
+        .menu-cats {
+            padding: 5rem 2rem;
+            background: var(--dark-surface);
+        }
+
+        .menu-cats-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .menu-cats h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .cats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cat-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .cat-card:hover {
+            border-color: var(--red);
+            transform: translateY(-3px);
+        }
+
+        .cat-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cat-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .cat-card p {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .cat-card .from {
+            color: var(--orange);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            display: block;
+        }
+
+        /* ─── Combo Section ─── */
+        .combos {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .combos h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .combos>p {
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        .combo-cards {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .combo-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2rem;
+            border-radius: 6px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .combo-card:hover {
+            border-color: var(--red);
+        }
+
+        .combo-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--orange);
+        }
+
+        .combo-card ul {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .combo-card li {
+            color: var(--muted);
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+        }
+
+        .combo-card li::before {
+            content: '▸ ';
+            color: var(--red);
+        }
+
+        .combo-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .combo-original {
+            text-decoration: line-through;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+            font-weight: 400;
+        }
+
+        /* ─── About Strip ─── */
+        .about-strip {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(178, 34, 52, 0.85) 0%, rgba(13, 13, 13, 0.9) 100%), url('https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=1400&q=80') center/cover no-repeat;
+            text-align: center;
+        }
+
+        .about-strip h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .about-strip p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* ─── Order CTA ─── */
+        .order-cta {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: var(--dark-surface);
+        }
+
+        .order-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-cta p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .order-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .order-pill {
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--red);
+            color: var(--red);
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .order-pill:hover {
+            background: var(--red);
+            color: white;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--red);
+        }
+
+        .footer p {
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .footer-links {
+            margin: 1rem 0;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--red);
+        }
+
+        /* ─── Mobile ─── */
+        @media (max-width: 768px) {
+
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .best-grid,
+            .cats-grid,
+            .combo-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Animations ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">Wok & <span>Fire</span></a>
+        <ul class="nav-links">
+            <li><a href="#bestsellers">Bestsellers</a></li>
+            <li><a href="#categories">Menu</a></li>
+            <li><a href="#combos">Combos</a></li>
+            <li><a href="#order">Order</a></li>
+        </ul>
+        <a href="#order" class="nav-cta">Order Now</a>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#bestsellers" onclick="toggleMenu()">Bestsellers</a>
+        <a href="#categories" onclick="toggleMenu()">Menu</a>
+        <a href="#combos" onclick="toggleMenu()">Combos</a>
+        <a href="#order" onclick="toggleMenu()">Order</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">🔥 Now in Connaught Place, Delhi</span>
+            <h1>Street <span>Wok.</span><br>Serious Flavour.</h1>
+            <p>IndoChinese done right. Crispy Manchurian, fiery Schezwan, and loaded Hakka Noodles — all tossed in a
+                blazing wok, just for you.</p>
+            <div class="hero-btns">
+                <a href="#bestsellers" class="btn-red">See Bestsellers</a>
+                <a href="#order" class="btn-outline">Order Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fire Strip -->
+    <div class="fire-strip">
+        <div class="fire-track">
+            <span>Manchurian</span>
+            <span>🔥</span>
+            <span>Hakka Noodles</span>
+            <span>🔥</span>
+            <span>Chilli Paneer</span>
+            <span>🔥</span>
+            <span>Fried Rice</span>
+            <span>🔥</span>
+            <span>Spring Rolls</span>
+            <span>🔥</span>
+            <span>Momos</span>
+            <span>🔥</span>
+            <span>Manchurian</span>
+            <span>🔥</span>
+            <span>Hakka Noodles</span>
+            <span>🔥</span>
+            <span>Chilli Paneer</span>
+            <span>🔥</span>
+            <span>Fried Rice</span>
+            <span>🔥</span>
+            <span>Spring Rolls</span>
+            <span>🔥</span>
+            <span>Momos</span>
+            <span>🔥</span>
+        </div>
+    </div>
+
+    <!-- Bestsellers -->
+    <section class="bestsellers" id="bestsellers">
+        <div class="bestsellers-inner">
+            <span class="section-tag">Fan Favourites</span>
+            <h2>Bestsellers</h2>
+            <div class="best-grid">
+                <div class="best-card fade-up">
+                    <img class="best-card-img"
+                        src="https://images.unsplash.com/photo-1525755662778-989d0524087e?w=600&q=80"
+                        alt="Manchurian Gravy" loading="lazy">
+                    <div class="best-card-body">
+                        <div class="best-card-header">
+                            <h3>Manchurian Gravy</h3>
+                            <span class="price">₹219</span>
+                        </div>
+                        <p>Crispy vegetable balls tossed in a tangy, spicy soy-ginger gravy. The OG IndoChinese classic.
+                        </p>
+                        <div class="spice-level">🌶️🌶️ Medium Spicy</div>
+                        <span class="tag-badge">Veg</span>
+                        <span class="tag-badge">Bestseller</span>
+                    </div>
+                </div>
+                <div class="best-card fade-up">
+                    <img class="best-card-img"
+                        src="https://images.unsplash.com/photo-1606491956689-2ea866880049?w=600&q=80"
+                        alt="Chilli Chicken" loading="lazy">
+                    <div class="best-card-body">
+                        <div class="best-card-header">
+                            <h3>Chilli Chicken Dry</h3>
+                            <span class="price">₹279</span>
+                        </div>
+                        <p>Boneless chicken wok-tossed with green chillies, soy sauce, and crispy onions. Crunchy,
+                            fiery,
+                            addictive.</p>
+                        <div class="spice-level">🌶️🌶️🌶️ Hot</div>
+                        <span class="tag-badge">Non-Veg</span>
+                        <span class="tag-badge">Chef's Pick</span>
+                    </div>
+                </div>
+                <div class="best-card fade-up">
+                    <div class="best-card-header">
+                        <h3>Schezwan Hakka Noodles</h3>
+                        <span class="price">₹199</span>
+                    </div>
+                    <p>Hand-pulled style noodles stir-fried with Schezwan paste, bell peppers, and spring onions.</p>
+                    <div class="spice-level">🌶️🌶️ Medium</div>
+                    <span class="tag-badge">Veg</span>
+                </div>
+                <div class="best-card fade-up">
+                    <div class="best-card-header">
+                        <h3>Paneer Chilli Garlic</h3>
+                        <span class="price">₹249</span>
+                    </div>
+                    <p>Crisp paneer cubes in a bold garlic-chilli sauce with crunchy peppers. Vegetarian hero.</p>
+                    <div class="spice-level">🌶️🌶️🌶️ Hot</div>
+                    <span class="tag-badge">Veg</span>
+                    <span class="tag-badge">Popular</span>
+                </div>
+                <div class="best-card fade-up">
+                    <div class="best-card-header">
+                        <h3>Dragon Chicken</h3>
+                        <span class="price">₹299</span>
+                    </div>
+                    <p>Twice-fried chicken in a sweet, spicy, and smoky dragon sauce. The fire-breather.</p>
+                    <div class="spice-level">🌶️🌶️🌶️🌶️ Extra Hot</div>
+                    <span class="tag-badge">Non-Veg</span>
+                </div>
+                <div class="best-card fade-up">
+                    <div class="best-card-header">
+                        <h3>Burnt Garlic Fried Rice</h3>
+                        <span class="price">₹189</span>
+                    </div>
+                    <p>Smoky wok-fried rice with caramelized garlic, soy, and a hint of sesame. Comfort food redefined.
+                    </p>
+                    <div class="spice-level">🌶️ Mild</div>
+                    <span class="tag-badge">Veg</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Categories -->
+    <section class="menu-cats" id="categories">
+        <div class="menu-cats-inner">
+            <h2>Menu</h2>
+            <div class="cats-grid">
+                <div class="cat-card fade-up">
+                    <div class="cat-emoji">🥟</div>
+                    <h3>Momos & Starters</h3>
+                    <p>Steamed, fried, tandoori — every kind of momo plus crunchy starters</p>
+                    <span class="from">From ₹129</span>
+                </div>
+                <div class="cat-card fade-up">
+                    <div class="cat-emoji">🍜</div>
+                    <h3>Noodles</h3>
+                    <p>Hakka, Schezwan, Chow Mein, Singapore — pick your fire level</p>
+                    <span class="from">From ₹169</span>
+                </div>
+                <div class="cat-card fade-up">
+                    <div class="cat-emoji">🍚</div>
+                    <h3>Fried Rice</h3>
+                    <p>Burnt garlic, Schezwan, triple rice, egg — wok-tossed perfection</p>
+                    <span class="from">From ₹169</span>
+                </div>
+                <div class="cat-card fade-up">
+                    <div class="cat-emoji">🍲</div>
+                    <h3>Gravy & Dry</h3>
+                    <p>Manchurian, chilli, garlic, honey chilli — veg & non-veg options</p>
+                    <span class="from">From ₹199</span>
+                </div>
+                <div class="cat-card fade-up">
+                    <div class="cat-emoji">🥤</div>
+                    <h3>Coolers</h3>
+                    <p>Iced teas, fresh lime, Korean shakes, and more to calm the fire</p>
+                    <span class="from">From ₹79</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Combos -->
+    <section class="combos" id="combos">
+        <span class="section-tag">Value Deals</span>
+        <h2>Combo Meals</h2>
+        <p>Big flavour, better value. All combos served with a cooler.</p>
+        <div class="combo-cards">
+            <div class="combo-card fade-up">
+                <h3>Solo Fire 🔥</h3>
+                <ul>
+                    <li>Hakka Noodles / Fried Rice</li>
+                    <li>Manchurian Gravy / Chilli Paneer</li>
+                    <li>Iced Lemon Tea</li>
+                </ul>
+                <div class="combo-price">₹329 <span class="combo-original">₹449</span></div>
+            </div>
+            <div class="combo-card fade-up">
+                <h3>Duo Feast 🔥🔥</h3>
+                <ul>
+                    <li>2× Noodles / Fried Rice (mix & match)</li>
+                    <li>1× Manchurian + 1× Chilli Chicken</li>
+                    <li>2× Coolers</li>
+                    <li>4× Spring Rolls</li>
+                </ul>
+                <div class="combo-price">₹599 <span class="combo-original">₹850</span></div>
+            </div>
+            <div class="combo-card fade-up">
+                <h3>Gang Pack 🔥🔥🔥</h3>
+                <ul>
+                    <li>4× Noodles / Fried Rice</li>
+                    <li>2× Gravy Items</li>
+                    <li>8× Momos</li>
+                    <li>4× Coolers</li>
+                </ul>
+                <div class="combo-price">₹1,099 <span class="combo-original">₹1,600</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-strip fade-up">
+        <h2>Why Wok & Fire?</h2>
+        <p>We're not fancy. We're loud, we're fast, and we make the best IndoChinese in the city. Every dish is
+            wok-tossed fresh — no batches, no buffets, no compromise. From Connaught Place to your plate in minutes.</p>
+    </section>
+
+    <!-- Order CTA -->
+    <section class="order-cta" id="order">
+        <h2>Hungry Yet?</h2>
+        <p>Dine in, take away, or get it delivered. Your call.</p>
+        <div class="order-btns">
+            <a href="tel:+911112345678" class="order-pill">📞 Call to Order</a>
+            <a href="https://wa.me/911112345678" target="_blank" class="order-pill">💬 WhatsApp</a>
+            <a href="#" class="order-pill">📍 CP, Delhi — Walk In</a>
+        </div>
+        <p style="margin-top: 1.5rem; color: var(--muted); font-size: 0.8rem;">Open daily · 11:30 AM – 11:00 PM</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Wok & <span>Fire</span></div>
+        <div class="footer-links">
+            <a href="#bestsellers">Bestsellers</a>
+            <a href="#categories">Menu</a>
+            <a href="#combos">Combos</a>
+            <a href="#order">Order</a>
+        </div>
+        <p>© 2025 Wok & Fire. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chai & Canvas — Indian Café</title>
+    <meta name="description"
+        content="A modern Indian café serving artisanal chai, fusion bites, and soulful vibes. Your everyday escape.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --terracotta: #C4622D;
+            --terracotta-light: #E8945A;
+            --olive: #5C6B3C;
+            --olive-light: #8FA65A;
+            --cream: #FBF5EF;
+            --warm-white: #F5ECE1;
+            --dark: #1C1510;
+            --text: #3D3028;
+            --text-light: #8A7D6F;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'DM Serif Display', serif;
+        }
+
+        /* ─── Navbar ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(251, 245, 239, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--terracotta);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--terracotta);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 2px;
+            background: var(--text);
+            transition: 0.3s;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--cream);
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--terracotta);
+            text-decoration: none;
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 7rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--warm-white);
+            color: var(--terracotta);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            border-radius: 100px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+            color: var(--text);
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--terracotta);
+        }
+
+        .hero p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            max-width: 480px;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-fill {
+            padding: 0.85rem 2rem;
+            background: var(--terracotta);
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-fill:hover {
+            background: var(--terracotta-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 98, 45, 0.25);
+        }
+
+        .btn-ghost {
+            padding: 0.85rem 2rem;
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border: 1.5px solid var(--text);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--terracotta);
+            color: var(--terracotta);
+        }
+
+        /* ─── Marquee ─── */
+        .marquee {
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 0.75rem 0;
+            overflow: hidden;
+            background: var(--warm-white);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 25s linear infinite;
+        }
+
+        .marquee-track span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            white-space: nowrap;
+            margin: 0 2rem;
+        }
+
+        .marquee-track span.dot {
+            color: var(--terracotta);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ─── About ─── */
+        .about {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .about p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ─── Menu ─── */
+        .menu {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .menu-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .menu .section-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--terracotta-light);
+            margin-bottom: 0.75rem;
+            display: block;
+            text-align: center;
+        }
+
+        .menu h2 {
+            text-align: center;
+            color: var(--cream);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-category {
+            margin-bottom: 3rem;
+        }
+
+        .menu-category h3 {
+            font-size: 1.3rem;
+            color: var(--terracotta-light);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .menu-item-name {
+            font-weight: 500;
+            color: var(--cream);
+            font-size: 0.95rem;
+        }
+
+        .menu-item-desc {
+            font-size: 0.8rem;
+            color: rgba(251, 245, 239, 0.4);
+            margin-top: 0.25rem;
+        }
+
+        .menu-item-price {
+            color: var(--terracotta-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            margin-left: 2rem;
+        }
+
+        /* ─── Specials ─── */
+        .specials {
+            padding: 5rem 2rem;
+            background: var(--warm-white);
+        }
+
+        .specials-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .specials h2 {
+            font-size: 2.2rem;
+            color: var(--text);
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .specials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .special-card {
+            padding: 2rem;
+            background: var(--cream);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .special-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .special-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .special-card h3 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .special-card p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .special-price {
+            margin-top: 1rem;
+            font-weight: 700;
+            color: var(--terracotta);
+            font-size: 1.1rem;
+        }
+
+        /* ─── Vibes ─── */
+        .vibes {
+            padding: 5rem 2rem;
+            text-align: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .vibes-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            text-align: left;
+        }
+
+        .vibes-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .vibes h2 {
+            font-size: 2.5rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .vibes p {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 550px;
+            margin: 0 auto 2rem;
+        }
+
+        .vibes-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .vibes-tags span {
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* ─── Contact ─── */
+        .contact {
+            padding: 5rem 2rem;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.2rem;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            color: rgba(251, 245, 239, 0.5);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-pill {
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--terracotta);
+            color: var(--terracotta-light);
+            text-decoration: none;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .contact-pill:hover {
+            background: var(--terracotta);
+            color: white;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--dark);
+        }
+
+        .footer-logo {
+            font-family: 'DM Serif Display', serif;
+            color: var(--terracotta);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer p {
+            color: rgba(251, 245, 239, 0.3);
+            font-size: 0.75rem;
+        }
+
+        /* ─── Mobile ─── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 8rem;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .vibes-split {
+                grid-template-columns: 1fr;
+            }
+
+            .vibes-img {
+                display: none;
+            }
+        }
+
+        /* ─── Animations ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">Chai & Canvas</a>
+        <ul class="nav-links">
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#specials">Specials</a></li>
+            <li><a href="#vibes">Our Vibe</a></li>
+            <li><a href="#contact">Visit Us</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#menu" onclick="toggleMenu()">Menu</a>
+        <a href="#specials" onclick="toggleMenu()">Specials</a>
+        <a href="#vibes" onclick="toggleMenu()">Our Vibe</a>
+        <a href="#contact" onclick="toggleMenu()">Visit Us</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">☕ Now Open in Koramangala</span>
+            <h1>Where Every Sip Tells a <span>Story</span></h1>
+            <p>Artisanal chai made from single-estate leaves, paired with freshly baked fusion bites. A cozy corner for
+                work, dates, and daydreams.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn-fill">See Menu</a>
+                <a href="#contact" class="btn-ghost">Find Us</a>
+            </div>
+        </div>
+        <img class="hero-image" src="https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?w=800&q=80"
+            alt="Masala chai in a kulhad" loading="lazy">
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>Masala Chai</span><span class="dot">·</span>
+            <span>Filter Coffee</span><span class="dot">·</span>
+            <span>Bun Maska</span><span class="dot">·</span>
+            <span>Khari Biscuit</span><span class="dot">·</span>
+            <span>Vada Pav</span><span class="dot">·</span>
+            <span>Paneer Puff</span><span class="dot">·</span>
+            <span>Iced Chai</span><span class="dot">·</span>
+            <span>Masala Chai</span><span class="dot">·</span>
+            <span>Filter Coffee</span><span class="dot">·</span>
+            <span>Bun Maska</span><span class="dot">·</span>
+            <span>Khari Biscuit</span><span class="dot">·</span>
+            <span>Vada Pav</span><span class="dot">·</span>
+            <span>Paneer Puff</span><span class="dot">·</span>
+            <span>Iced Chai</span><span class="dot">·</span>
+        </div>
+    </div>
+
+    <!-- About -->
+    <section class="about fade-up">
+        <h2>More Than Just a Café</h2>
+        <p>Chai & Canvas was born from a simple idea — great chai deserves a great space. We source our leaves from
+            Assam and Munnar, roast our beans in-house, and bake everything fresh daily. No shortcuts. No powders. Just
+            pure, soulful flavour.</p>
+    </section>
+
+    <!-- Menu -->
+    <section class="menu" id="menu">
+        <div class="menu-inner">
+            <span class="section-tag">What's Brewing</span>
+            <h2>Our Menu</h2>
+
+            <div class="menu-category fade-up">
+                <h3>Chai & Brews</h3>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Classic Masala Chai</div>
+                        <div class="menu-item-desc">Assam CTC, ginger, cardamom, full-fat milk</div>
+                    </div>
+                    <span class="menu-item-price">₹79</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Kashmiri Pink Chai</div>
+                        <div class="menu-item-desc">Green tea, cardamom, almonds, saffron</div>
+                    </div>
+                    <span class="menu-item-price">₹129</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">South Indian Filter Coffee</div>
+                        <div class="menu-item-desc">Chicory blend, served in a traditional dabarah set</div>
+                    </div>
+                    <span class="menu-item-price">₹99</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Iced Rose Chai</div>
+                        <div class="menu-item-desc">Chilled masala chai, rose syrup, crushed ice</div>
+                    </div>
+                    <span class="menu-item-price">₹139</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Matka Kulhad Chai</div>
+                        <div class="menu-item-desc">Smoky earthen pot chai, tapri style</div>
+                    </div>
+                    <span class="menu-item-price">₹69</span>
+                </div>
+            </div>
+
+            <div class="menu-category fade-up">
+                <h3>Small Bites</h3>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Bun Maska</div>
+                        <div class="menu-item-desc">Soft Irani bun with Amul butter</div>
+                    </div>
+                    <span class="menu-item-price">₹59</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Paneer Puff</div>
+                        <div class="menu-item-desc">Flaky pastry, spiced paneer filling</div>
+                    </div>
+                    <span class="menu-item-price">₹79</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Vada Pav</div>
+                        <div class="menu-item-desc">Mumbai-style potato fritter in a pav with chutneys</div>
+                    </div>
+                    <span class="menu-item-price">₹89</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Kanda Bhaji</div>
+                        <div class="menu-item-desc">Crispy onion fritters, served with mint chutney</div>
+                    </div>
+                    <span class="menu-item-price">₹99</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Cheese Toast Sandwich</div>
+                        <div class="menu-item-desc">Mumbai-style grilled sandwich with green chutney</div>
+                    </div>
+                    <span class="menu-item-price">₹119</span>
+                </div>
+            </div>
+
+            <div class="menu-category fade-up">
+                <h3>Sweets</h3>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Mawa Cake</div>
+                        <div class="menu-item-desc">Parsi-style cardamom cake with mawa</div>
+                    </div>
+                    <span class="menu-item-price">₹89</span>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <div class="menu-item-name">Chai-Spiced Cookie</div>
+                        <div class="menu-item-desc">Butter cookie infused with masala chai spices</div>
+                    </div>
+                    <span class="menu-item-price">₹49</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specials -->
+    <section class="specials" id="specials">
+        <div class="specials-inner">
+            <h2>Today's Specials</h2>
+            <div class="specials-grid">
+                <div class="special-card fade-up">
+                    <div class="special-icon">🍵</div>
+                    <h3>Monsoon Combo</h3>
+                    <p>Masala Chai + Bun Maska + Kanda Bhaji. The perfect rainy day trio.</p>
+                    <div class="special-price">₹179</div>
+                </div>
+                <div class="special-card fade-up">
+                    <div class="special-icon">☕</div>
+                    <h3>Work From Café Pack</h3>
+                    <p>Unlimited chai refills + one snack. Stay as long as you want (free WiFi, obviously).</p>
+                    <div class="special-price">₹249 / 3 hrs</div>
+                </div>
+                <div class="special-card fade-up">
+                    <div class="special-icon">🎂</div>
+                    <h3>Weekend Brunch Plate</h3>
+                    <p>Poha + Upma + Filter Coffee + Mawa Cake. Saturday & Sunday only.</p>
+                    <div class="special-price">₹299</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vibes -->
+    <section class="vibes fade-up" id="vibes">
+        <div class="vibes-split">
+            <img class="vibes-img" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80"
+                alt="Cozy cafe interior" loading="lazy">
+            <div>
+                <h2>The Chai & Canvas Vibe</h2>
+                <p>Mismatched furniture. Plants everywhere. Lo-fi beats. The smell of fresh cardamom. A space designed
+                    to slow
+                    you down.</p>
+                <div class="vibes-tags">
+                    <span>📶 Free WiFi</span>
+                    <span>🔌 Power Outlets</span>
+                    <span>📚 Book Corner</span>
+                    <span>🎨 Local Art</span>
+                    <span>🐕 Pet Friendly</span>
+                    <span>🌿 Indoor Plants</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>Come Say Hello</h2>
+        <p>We're open 7 days a week. Walk in, grab a kulhad, and make yourself at home.</p>
+        <p style="color: rgba(251,245,239,0.6); font-size: 0.85rem; margin-bottom: 0.5rem;">📍 34, 1st Cross Road,
+            Koramangala 5th Block, Bangalore 560095</p>
+        <p style="color: rgba(251,245,239,0.5); font-size: 0.8rem; margin-bottom: 2rem;">Mon–Sun · 7:30 AM – 10:00 PM
+        </p>
+        <div class="contact-info">
+            <a href="tel:+919876543210" class="contact-pill">📞 +91 98765 43210</a>
+            <a href="https://instagram.com" target="_blank" class="contact-pill">📸 @chaiandcanvas</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">Chai & Canvas</div>
+        <p>© 2025 Chai & Canvas. Made with ☕ in Bangalore.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

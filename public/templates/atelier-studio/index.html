@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelier Noor — Bespoke Design Studio</title>
+    <meta name="description"
+        content="A bespoke atelier crafting luxury interiors, custom furniture, and architectural details. Design, build, deliver.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --ivory: #F5F0E8;
+            --ivory-deep: #EDE5D8;
+            --bronze: #9E7C5A;
+            --bronze-light: #C4A882;
+            --bronze-dark: #7A5C3E;
+            --white: #FFFFFF;
+            --text: #1C1C1C;
+            --text-light: #7A7268;
+            --border: rgba(0, 0, 0, .08);
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Cormorant', serif;
+            font-weight: 500
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all .4s
+        }
+
+        .navbar.scrolled {
+            background: rgba(245, 240, 232, .97);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 8px rgba(0, 0, 0, .04)
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: .08em
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: .8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .18em;
+            transition: color .3s
+        }
+
+        .nav-links a:hover {
+            color: var(--bronze)
+        }
+
+        .nav-cta {
+            padding: .6rem 1.8rem;
+            background: var(--charcoal);
+            color: var(--ivory);
+            font-weight: 600;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            text-decoration: none;
+            transition: all .3s
+        }
+
+        .nav-cta:hover {
+            background: var(--bronze)
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 1.5px;
+            background: var(--text);
+            transition: .3s
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--ivory);
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem
+        }
+
+        .mobile-menu.active {
+            display: flex
+        }
+
+        .mobile-menu a {
+            font-family: 'Cormorant', serif;
+            font-size: 2.2rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 8rem 2.5rem 5rem;
+            max-width: 1300px;
+            margin: 0 auto
+        }
+
+        .hero-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 4px
+        }
+
+        .hero-content {
+            max-width: 750px
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .75rem;
+            color: var(--bronze);
+            font-size: .7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .3em;
+            margin-bottom: 2.5rem
+        }
+
+        .hero-eyebrow .line {
+            width: 40px;
+            height: 1px;
+            background: var(--bronze)
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6.5vw, 5.5rem);
+            line-height: 1.08;
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: 2rem;
+            letter-spacing: .01em
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--bronze);
+            font-weight: 400
+        }
+
+        .hero p {
+            color: var(--text-light);
+            font-size: 1rem;
+            max-width: 480px;
+            line-height: 1.9;
+            margin-bottom: 3rem
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap
+        }
+
+        .btn-dark {
+            padding: .9rem 2.5rem;
+            background: var(--charcoal);
+            color: var(--ivory);
+            font-weight: 600;
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .btn-dark:hover {
+            background: var(--bronze);
+            transform: translateY(-2px)
+        }
+
+        .btn-line {
+            padding: .9rem 2.5rem;
+            background: transparent;
+            color: var(--text);
+            font-weight: 600;
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            text-decoration: none;
+            border: 1px solid var(--text);
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        .btn-line:hover {
+            border-color: var(--bronze);
+            color: var(--bronze)
+        }
+
+        /* Philosophy */
+        .philosophy {
+            padding: 5rem 2.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .philosophy p {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            color: var(--text);
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 400
+        }
+
+        .philosophy em {
+            color: var(--bronze);
+            font-style: italic
+        }
+
+        /* Services */
+        .services {
+            padding: 7rem 2.5rem
+        }
+
+        .services-inner {
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        .section-label {
+            font-size: .65rem;
+            text-transform: uppercase;
+            letter-spacing: .4em;
+            color: var(--bronze);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem
+        }
+
+        .services h2 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 4rem
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem
+        }
+
+        .service-card {
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all .4s
+        }
+
+        .service-card:hover {
+            border-color: var(--bronze);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .05)
+        }
+
+        .service-num {
+            font-family: 'Cormorant', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--bronze);
+            margin-bottom: 1rem;
+            line-height: 1
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: .75rem;
+            font-weight: 500
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: .85rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem
+        }
+
+        .service-price {
+            color: var(--bronze);
+            font-weight: 600;
+            font-size: .85rem
+        }
+
+        /* Portfolio Strip */
+        .portfolio-strip {
+            padding: 5rem 0;
+            background: var(--charcoal);
+            overflow: hidden
+        }
+
+        .port-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2.5rem
+        }
+
+        .port-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem
+        }
+
+        .portfolio-strip h2 {
+            color: var(--ivory);
+            font-size: 2.2rem;
+            font-weight: 400
+        }
+
+        .port-link {
+            color: var(--bronze-light);
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color .3s
+        }
+
+        .port-link:hover {
+            color: var(--ivory)
+        }
+
+        .port-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem
+        }
+
+        .port-card {
+            aspect-ratio: 4/5;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer
+        }
+
+        .port-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            transition: transform .5s;
+            position: relative
+        }
+
+        .port-card:hover .port-img {
+            transform: scale(1.03)
+        }
+
+        .port-card-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .port-card h4 {
+            font-size: 1.2rem;
+            color: var(--ivory);
+            font-weight: 500;
+            position: relative;
+            z-index: 2
+        }
+
+        .port-card span {
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            color: var(--bronze-light);
+            display: block;
+            margin-top: .3rem;
+            position: relative;
+            z-index: 2
+        }
+
+        .port-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0, 0, 0, .6), transparent);
+            pointer-events: none
+        }
+
+        /* Process */
+        .process {
+            padding: 7rem 2.5rem
+        }
+
+        .process-inner {
+            max-width: 1000px;
+            margin: 0 auto
+        }
+
+        .process h2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 4rem;
+            text-align: center
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: var(--border)
+        }
+
+        .timeline-step {
+            text-align: center;
+            position: relative
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bronze);
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 2
+        }
+
+        .timeline-step h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: .4rem
+        }
+
+        .timeline-step p {
+            color: var(--text-light);
+            font-size: .8rem;
+            line-height: 1.6
+        }
+
+        /* Testimonial */
+        .testimonial {
+            padding: 5rem 2.5rem;
+            background: linear-gradient(rgba(237, 229, 216, .92), rgba(237, 229, 216, .95)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80') center/cover no-repeat
+        }
+
+        .testi-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .testi-quote {
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 400
+        }
+
+        .testi-author {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            color: var(--bronze);
+            font-weight: 600
+        }
+
+        /* Contact */
+        .contact {
+            padding: 6rem 2.5rem;
+            text-align: center
+        }
+
+        .contact h2 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 1rem
+        }
+
+        .contact>p {
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: .95rem;
+            line-height: 1.7
+        }
+
+        .contact-methods {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem
+        }
+
+        .c-pill {
+            padding: .8rem 2rem;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: .8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            transition: all .3s
+        }
+
+        .c-pill:hover {
+            border-color: var(--bronze);
+            color: var(--bronze)
+        }
+
+        .contact .addr {
+            color: var(--text-light);
+            font-size: .85rem;
+            line-height: 1.8
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2.5rem;
+            background: var(--charcoal);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant', serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--ivory);
+            letter-spacing: .08em
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem
+        }
+
+        .footer-links a {
+            color: rgba(245, 240, 232, .4);
+            font-size: .75rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            transition: color .3s
+        }
+
+        .footer-links a:hover {
+            color: var(--bronze)
+        }
+
+        .footer p {
+            color: rgba(245, 240, 232, .3);
+            font-size: .7rem
+        }
+
+        @media(max-width:768px) {
+
+            .nav-links,
+            .nav-cta {
+                display: none
+            }
+
+            .hamburger {
+                display: flex
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr
+            }
+
+            .port-grid {
+                grid-template-columns: 1fr
+            }
+
+            .process-timeline {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem
+            }
+
+            .process-timeline::before {
+                display: none
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center
+            }
+        }
+
+        @media(min-width:769px) and (max-width:1024px) {
+            .services-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .port-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity .6s ease, transform .6s ease
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">ATELIER NOOR</a>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Work</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Enquire</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Start a Project</a>
+        <button class="hamburger" onclick="toggleMenu()"
+            aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services" onclick="toggleMenu()">Services</a>
+        <a href="#portfolio" onclick="toggleMenu()">Work</a>
+        <a href="#process" onclick="toggleMenu()">Process</a>
+        <a href="#contact" onclick="toggleMenu()">Enquire</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow"><span class="line"></span> Bespoke Design Studio, New Delhi</div>
+            <h1>Spaces That Breathe <em>Quiet Luxury</em></h1>
+            <p>We design and build bespoke interiors, custom furniture, and architectural details — for residences,
+                boutique hotels, and commercial spaces that demand something beyond ordinary.</p>
+            <div class="hero-btns">
+                <a href="#portfolio" class="btn-dark">View Our Work</a>
+                <a href="#contact" class="btn-line">Start a Conversation</a>
+            </div>
+        </div>
+        <img class="hero-image" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80"
+            alt="Luxury interior design" loading="lazy">
+    </section>
+
+    <!-- Philosophy -->
+    <section class="philosophy fade-up">
+        <p>We don't decorate rooms — we compose <em>experiences.</em> Every material is chosen, every joint is
+            considered, every surface tells a story. This is design at the pace of craft, not commerce.</p>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="services-inner">
+            <span class="section-label">What We Do</span>
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card fade-up">
+                    <div class="service-num">01</div>
+                    <h3>Interior Architecture</h3>
+                    <p>Full-scope interior design — from concept to completion. Space planning, material palettes,
+                        lighting design, and on-site execution for homes, offices, and hospitality spaces.</p>
+                    <span class="service-price">Projects from ₹15,00,000</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-num">02</div>
+                    <h3>Custom Furniture</h3>
+                    <p>Handcrafted furniture designed to your specifications. Solid wood, metal, stone, and upholstery —
+                        every piece is made in our Delhi workshop by master craftsmen.</p>
+                    <span class="service-price">Pieces from ₹75,000</span>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-num">03</div>
+                    <h3>Art & Detailing</h3>
+                    <p>Custom wall treatments, bespoke joinery, decorative metalwork, and curated art sourcing. The
+                        details that elevate a space from good to unforgettable.</p>
+                    <span class="service-price">Consultations from ₹25,000</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="portfolio-strip" id="portfolio">
+        <div class="port-inner">
+            <div class="port-header">
+                <h2>Selected Work</h2>
+                <a href="#contact" class="port-link">Discuss Your Project →</a>
+            </div>
+            <div class="port-grid">
+                <div class="port-card fade-up">
+                    <div class="port-img">
+                        <img class="port-card-bg"
+                            src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&q=80"
+                            alt="Villa Mehra interior" loading="lazy">
+                        <div>
+                            <h4>Villa Mehra</h4>
+                            <span>Residence · Gurgaon</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="port-card fade-up">
+                    <div class="port-img">
+                        <img class="port-card-bg"
+                            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80"
+                            alt="The Loom Boutique" loading="lazy">
+                        <div>
+                            <h4>The Loom Boutique</h4>
+                            <span>Retail · Jaipur</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="port-card fade-up">
+                    <div class="port-img">
+                        <img class="port-card-bg"
+                            src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80"
+                            alt="Haveli 47 restaurant" loading="lazy">
+                        <div>
+                            <h4>Haveli 47</h4>
+                            <span>Restaurant · Delhi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="process" id="process">
+        <div class="process-inner">
+            <span class="section-label" style="text-align:center;display:block">How We Work</span>
+            <h2>Our Process</h2>
+            <div class="process-timeline">
+                <div class="timeline-step fade-up">
+                    <div class="step-dot"></div>
+                    <h3>Discovery</h3>
+                    <p>Understanding your vision, space, and lifestyle through detailed conversations</p>
+                </div>
+                <div class="timeline-step fade-up">
+                    <div class="step-dot"></div>
+                    <h3>Design</h3>
+                    <p>Concepts, 3D visualizations, material boards, and detailed drawings</p>
+                </div>
+                <div class="timeline-step fade-up">
+                    <div class="step-dot"></div>
+                    <h3>Craft</h3>
+                    <p>Custom fabrication in our workshop, curated sourcing, and artisan coordination</p>
+                </div>
+                <div class="timeline-step fade-up">
+                    <div class="step-dot"></div>
+                    <h3>Deliver</h3>
+                    <p>On-site installation, styling, and final reveal. A space that's truly yours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial fade-up">
+        <div class="testi-inner">
+            <p class="testi-quote">"Atelier Noor didn't just design our home — they understood how we live. Every corner
+                feels considered, every material feels intentional. It's not interior design, it's life design."</p>
+            <span class="testi-author">— Kavita & Rajesh Mehra, Gurgaon</span>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>Let's Create Together</h2>
+        <p>Every project begins with a conversation. Tell us about your space, your vision, and your timeline.</p>
+        <div class="contact-methods">
+            <a href="mailto:studio@ateliernoor.in" class="c-pill">✉️ studio@ateliernoor.in</a>
+            <a href="https://wa.me/911112345678" target="_blank" class="c-pill">💬 WhatsApp</a>
+            <a href="tel:+911112345678" class="c-pill">📞 +91 111 234 5678</a>
+        </div>
+        <p class="addr">Studio 12, Second Floor, Hauz Khas Village<br>New Delhi 110016 · By appointment only</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <span class="footer-logo">ATELIER NOOR</span>
+        <div class="footer-links">
+            <a href="#services">Services</a>
+            <a href="#portfolio">Work</a>
+            <a href="#process">Process</a>
+            <a href="#contact">Enquire</a>
+        </div>
+        <p>© 2025 Atelier Noor Design Studio. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60) });
+        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active') }
+        const observer = new IntersectionObserver(e => { e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible') }) }, { threshold: .15 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
